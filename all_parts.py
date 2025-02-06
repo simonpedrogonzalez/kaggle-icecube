@@ -763,7 +763,7 @@ class ParquetDataset2(Dataset2):
             self.this_batch_id = self.batch_ids[self.this_batch_idx]
             print('reset epoch to batch_id:', self.this_batch_id, self.this_batch_idx)
 
-        #print('reading meta', f'../input/train/meta_{self.this_batch_id}.parquet')
+        #print('reading meta', f'input/train/meta_{self.this_batch_id}.parquet')
         meta = pd.read_parquet(f'{META_DIR}/meta_{self.this_batch_id}.parquet')
             
         if self.max_pulse > 0:
@@ -786,7 +786,7 @@ class ParquetDataset2(Dataset2):
         
     def _init(self) -> None:
         self.this_batch_idx = -1
-        sensor_geometry = pd.read_csv(f'../input/icecube-neutrinos-in-deep-ice/sensor_geometry.csv')
+        sensor_geometry = pd.read_csv(f'input/icecube-neutrinos-in-deep-ice/sensor_geometry.csv')
         self.sensor_geometry_dict = sensor_geometry.set_index('sensor_id').to_dict()
 
         self.reset_epoch()
@@ -1855,8 +1855,8 @@ def inference(model, config: Dict[str, Any]) -> pd.DataFrame:
     )
     return results
 
-BATCH_DIR = '../input/icecube-neutrinos-in-deep-ice/train'
-META_DIR = '../input/icecube-neutrinos-in-deep-ice/train'
+BATCH_DIR = 'input/icecube-neutrinos-in-deep-ice/train'
+META_DIR = 'input/icecube-neutrinos-in-deep-ice/train'
 FILTER_BY_KAPPA_THRE = 0.5
 
 # training setting
@@ -2120,17 +2120,17 @@ def infer(min_pulse, max_pulse, batch_size, this_batch_id):
 
 
 if validateMode:
-    BATCH_DIR = '../input/icecube-neutrinos-in-deep-ice/train'
-    #meta = pd.read_parquet('../input/icecubedatas/train_meta_651to660.parquet')
+    BATCH_DIR = 'input/icecube-neutrinos-in-deep-ice/train'
+    #meta = pd.read_parquet('input/icecubedatas/train_meta_651to660.parquet')
     #META_DIR = '../work/test_valid10'
-    meta = pd.read_parquet('../input/icecubedatas/train_meta_656to660.parquet')
+    meta = pd.read_parquet('input/icecubedatas/train_meta_656to660.parquet')
     META_DIR = '../work/test_valid5'
-    #meta = pd.read_parquet('../input/icecubedatas/train_meta_660.parquet')
+    #meta = pd.read_parquet('input/icecubedatas/train_meta_660.parquet')
     #META_DIR = '../work/test_valid1'
 else:
-    BATCH_DIR = '../input/icecube-neutrinos-in-deep-ice/test'
+    BATCH_DIR = 'input/icecube-neutrinos-in-deep-ice/test'
     META_DIR = '../work/test'
-    meta = pd.read_parquet('../input/icecube-neutrinos-in-deep-ice/test_meta.parquet')
+    meta = pd.read_parquet('input/icecube-neutrinos-in-deep-ice/test_meta.parquet')
     
 WORK_DIR = META_DIR
 os.makedirs(META_DIR, exist_ok = True)
@@ -2148,7 +2148,7 @@ _ = gc.collect()
 
 ONLY_AUX_FALSE = False
 runName = '4l-ph3'
-CKPT = '../input/icecubedatas/base1-4l-lr2-batch1000-splitModel2-650x14-retryFromStart2-last.pth'
+CKPT = 'input/icecubedatas/base1-4l-lr2-batch1000-splitModel2-650x14-retryFromStart2-last.pth'
 COLUMNS_NEAREST_NEIGHBOURS = [slice(0,3)]
 USE_G = True
 USE_PP = True
@@ -2201,7 +2201,7 @@ gc.collect()
 
 ONLY_AUX_FALSE = False
 runName = '4l-retry1-e2t10-ph3'
-CKPT = '../input/icecubedatas/base1-4l-splitModel2-650x2-theta10-retryFromStart3-last.pth'
+CKPT = 'input/icecubedatas/base1-4l-splitModel2-650x2-theta10-retryFromStart3-last.pth'
 COLUMNS_NEAREST_NEIGHBOURS = [slice(0,3)]
 USE_G = True
 USE_PP = True
@@ -2254,7 +2254,7 @@ gc.collect()
 
 ONLY_AUX_FALSE = False
 runName = '3lnoPP-ph3'
-CKPT = '../input/icecubedatas/base1-3l300p500b-noPP-650x2-retryFromStart2-epoch1299-val_tloss0.999595.ckpt' # 0.9689275622367859, 0.9656946659088135
+CKPT = 'input/icecubedatas/base1-3l300p500b-noPP-650x2-retryFromStart2-epoch1299-val_tloss0.999595.ckpt' # 0.9689275622367859, 0.9656946659088135
 COLUMNS_NEAREST_NEIGHBOURS = [slice(0,3)]
 USE_G = False
 USE_PP = False
@@ -2303,7 +2303,7 @@ gc.collect()
 
 ONLY_AUX_FALSE = False
 runName = '3l4n-avg'
-CKPT = '../input/icecubedatas/base1-3l250p4n-batch1000-650x8-retryFromStart1-avg.pth' # 0.9705609679222107
+CKPT = 'input/icecubedatas/base1-3l250p4n-batch1000-650x8-retryFromStart1-avg.pth' # 0.9705609679222107
 COLUMNS_NEAREST_NEIGHBOURS = [slice(0,4)]
 USE_G = True
 USE_PP = True
@@ -2352,7 +2352,7 @@ gc.collect()
 
 ONLY_AUX_FALSE = False
 runName = '4l-splitModel2-650x12-ph3'
-CKPT = '../input/icecubedatas/base1-4l-splitModel2-650x12-retryFromStart4-retry1-last.pth' #0.9661051034927368
+CKPT = 'input/icecubedatas/base1-4l-splitModel2-650x12-retryFromStart4-retry1-last.pth' #0.9661051034927368
 COLUMNS_NEAREST_NEIGHBOURS = [slice(0,3)]
 USE_G = True
 USE_PP = True
@@ -2405,7 +2405,7 @@ gc.collect()
 
 ONLY_AUX_FALSE = False
 runName = '4l4D500p-batch500-splitModel2-650x20-ph3'
-CKPT = '../input/icecubedatas/base1-4l4D500p-batch500-splitModel2-650x20-retry4-last.pth' # 0.9676517248153687
+CKPT = 'input/icecubedatas/base1-4l4D500p-batch500-splitModel2-650x20-retry4-last.pth' # 0.9676517248153687
 COLUMNS_NEAREST_NEIGHBOURS = [slice(0,4)]
 USE_G = True
 USE_PP = True
@@ -2477,7 +2477,7 @@ def xyz2zeaz(x,y,z):
     return az, ze
 
 PRED_DIR = '../work/'
-META_DIR = '../input/icecube-neutrinos-in-deep-ice/train'
+META_DIR = 'input/icecube-neutrinos-in-deep-ice/train'
 class MyDatasetFile(Dataset):
     def __init__(self, 
                  runNames, 
@@ -2862,10 +2862,10 @@ N_INPUT_FEA = 136*len(result1_files)
 USE_ALL_FEA_IN_PRED=False
 INF_DEVICES = 0
 USE_MID_FEA = True
-CKPT = '../input/icecubedatas/base3-ens20-last.pth' # 0.9640
-CKPT = '../input/icecubedatas/base4-ens23-last.pth' # 0.9637
-CKPT = '../input/icecubedatas/base5-ens26-last.pth' # 0.9635
-CKPT = '../input/icecubedatas/base5-ens32-6model-3layer-659batch-last.pth' # 0.963? todo1 
+CKPT = 'input/icecubedatas/base3-ens20-last.pth' # 0.9640
+CKPT = 'input/icecubedatas/base4-ens23-last.pth' # 0.9637
+CKPT = 'input/icecubedatas/base5-ens26-last.pth' # 0.9635
+CKPT = 'input/icecubedatas/base5-ens32-6model-3layer-659batch-last.pth' # 0.963? todo1 
 
 chunksize=50000
 meta_chunks = pd.read_csv(CSV_META, chunksize=chunksize)
