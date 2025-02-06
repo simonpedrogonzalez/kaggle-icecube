@@ -72,6 +72,17 @@ try:
 except ImportError:
     knn = None
 
+# create symlink input folder to
+# /media/simon/Extrene SSD/input
+try:
+    os.symlink("/media/simon/Extreme SSD/input", "./input")
+    print(f"Symlink created")
+except FileExistsError:
+    print("Symlink already exists!")
+except Exception as e:
+    print(f"Error: {e}")
+
+    
 
 class ColumnMissingException(Exception):
     """Exception to indicate a missing column in a dataset."""
