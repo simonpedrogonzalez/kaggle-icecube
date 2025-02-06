@@ -32,7 +32,7 @@ from pytorch_lightning.callbacks import EarlyStopping
 from pytorch_lightning.callbacks import LearningRateMonitor
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from pytorch_lightning.callbacks import GradientAccumulationScheduler
-from pytorch_lightning.profiler import PyTorchProfiler
+# from pytorch_lightning.profiler import PyTorchProfiler
 from torch import Tensor
 from torch import Tensor, LongTensor
 from torch import nn
@@ -77,7 +77,7 @@ class ColumnMissingException(Exception):
     """Exception to indicate a missing column in a dataset."""
 
 
-class Dataset2(torch.utils.data.Dataset, Configurable, LoggerMixin, ABC):
+class Dataset2(torch.utils.data.Dataset, Configurable, ABC): #LoggerMixin, ABC):
     """Base Dataset class for reading from any intermediate file format."""
 
     # Class method(s)
