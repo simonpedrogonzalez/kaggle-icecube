@@ -23,8 +23,8 @@ from graphnet.training.loss_functions import VonMisesFisher3DLoss, VonMisesFishe
 from graphnet.training.utils import make_dataloader
 from graphnet.utilities.config import Configurable, DatasetConfig, save_dataset_config
 from graphnet.utilities.config import save_model_config
-from graphnet.utilities.logging import LoggerMixin
-from graphnet.utilities.logging import get_logger
+# from graphnet.utilities.logging import LoggerMixin
+# from graphnet.utilities.logging import get_logger
 from pytorch_lightning import LightningModule
 from pytorch_lightning import Trainer
 from pytorch_lightning import loggers as pl_loggers
@@ -1651,7 +1651,7 @@ class KNNGraphBuilderMulti(GraphBuilder):  # pylint: disable=too-few-public-meth
         return data
 
 
-logger = get_logger()
+# logger = get_logger()
 
 class DistanceLoss2(LossFunction):
 
