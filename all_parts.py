@@ -23,7 +23,7 @@ from graphnet.training.loss_functions import VonMisesFisher3DLoss, VonMisesFishe
 from graphnet.training.utils import make_dataloader
 from graphnet.utilities.config import Configurable, DatasetConfig, save_dataset_config
 from graphnet.utilities.config import save_model_config
-# from graphnet.utilities.logging import LoggerMixin
+from graphnet.utilities.logging import Logger
 # from graphnet.utilities.logging import get_logger
 from pytorch_lightning import LightningModule
 from pytorch_lightning import Trainer
@@ -88,7 +88,7 @@ class ColumnMissingException(Exception):
     """Exception to indicate a missing column in a dataset."""
 
 
-class Dataset2(torch.utils.data.Dataset, Configurable, ABC): #LoggerMixin, ABC):
+class Dataset2(torch.utils.data.Dataset, Configurable, Logger, ABC):
     """Base Dataset class for reading from any intermediate file format."""
 
     # Class method(s)
@@ -255,6 +255,8 @@ class Dataset2(torch.utils.data.Dataset, Configurable, ABC): #LoggerMixin, ABC):
 
         assert isinstance(features, (list, tuple))
         assert isinstance(truth, (list, tuple))
+
+        self._logger = Logger(class_name=self.__class__.__name__)
 
         # Resolve reference to `$GRAPHNET` in path(s)
         path = self._resolve_graphnet_paths(path)
@@ -1662,7 +1664,7 @@ class KNNGraphBuilderMulti(GraphBuilder):  # pylint: disable=too-few-public-meth
         return data
 
 
-# logger = get_logger()
+# logger = Logger("GraphNet")
 
 class DistanceLoss2(LossFunction):
 
