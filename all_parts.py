@@ -82,7 +82,7 @@ except FileExistsError:
 except Exception as e:
     print(f"Error: {e}")
 
-    
+
 
 class ColumnMissingException(Exception):
     """Exception to indicate a missing column in a dataset."""
@@ -2133,14 +2133,14 @@ def infer(min_pulse, max_pulse, batch_size, this_batch_id):
 if validateMode:
     BATCH_DIR = 'input/icecube-neutrinos-in-deep-ice/train'
     #meta = pd.read_parquet('input/icecubedatas/train_meta_651to660.parquet')
-    #META_DIR = '../work/test_valid10'
+    #META_DIR = 'work/test_valid10'
     meta = pd.read_parquet('input/icecubedatas/train_meta_656to660.parquet')
-    META_DIR = '../work/test_valid5'
+    META_DIR = 'work/test_valid5'
     #meta = pd.read_parquet('input/icecubedatas/train_meta_660.parquet')
-    #META_DIR = '../work/test_valid1'
+    #META_DIR = 'work/test_valid1'
 else:
     BATCH_DIR = 'input/icecube-neutrinos-in-deep-ice/test'
-    META_DIR = '../work/test'
+    META_DIR = 'work/test'
     meta = pd.read_parquet('input/icecube-neutrinos-in-deep-ice/test_meta.parquet')
     
 WORK_DIR = META_DIR
@@ -2487,7 +2487,7 @@ def xyz2zeaz(x,y,z):
     az = np.nan_to_num(az,0)
     return az, ze
 
-PRED_DIR = '../work/'
+PRED_DIR = 'work/'
 META_DIR = 'input/icecube-neutrinos-in-deep-ice/train'
 class MyDatasetFile(Dataset):
     def __init__(self, 
