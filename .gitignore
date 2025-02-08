@@ -179,6 +179,9 @@ data/
 
 graphnet-and-dependencies/
 
-kaggle/working/software/dependencies/
+kaggle/
 
 working_backup.zip
+
+work/
+input
