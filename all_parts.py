@@ -1752,11 +1752,14 @@ class DirectionReconstructionWithKappa2(Task):
 def build_model2(config: Dict[str,Any], train_dataloader: Any, train_dataset: Any) -> StandardModel2:
     """Builds GNN from config"""
     # Building model
-    detector = IceCubeKaggle2(
-        graph_builder=KNNGraphBuilderMulti(nb_nearest_neighbours=NB_NEAREST_NEIGHBOURS, columns=COLUMNS_NEAREST_NEIGHBOURS) #dynedge_layer_sizes と合わせて変更
-    )
+    # detector = IceCubeKaggle2(
+    #     graph_builder=KNNGraphBuilderMulti(nb_nearest_neighbours=NB_NEAREST_NEIGHBOURS, columns=COLUMNS_NEAREST_NEIGHBOURS) #dynedge_layer_sizes と合わせて変更
+    # )
+    detector = IceCubeKaggle2()
+
     gnn = DynEdge(
-        nb_inputs=detector.nb_outputs,
+        # nb_inputs=detector.nb_outputs,
+        nb_inputs=6,
         #global_pooling_schemes=["min", "max", "mean"],
         global_pooling_schemes=["max"],
         add_global_variables_after_pooling=True
