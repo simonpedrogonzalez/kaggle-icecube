@@ -9,7 +9,8 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "justMyCode": false
         },
         // all_parts.py
         {
@@ -17,7 +18,8 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/all_parts.py",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "justMyCode": false
         }
     ]
 }

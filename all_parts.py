@@ -927,8 +927,9 @@ def make_dataloader2(
     return dataloader, dataset
 
 
-
-class StandardModel2(Model):
+from graphnet.models import StandardModel
+from graphnet.models.graphs.graph_definition import GraphDefinition
+class StandardModel2(StandardModel):#Model):
     """Main class for standard models in graphnet.
 
     This class chains together the different elements of a complete GNN-based
@@ -939,6 +940,7 @@ class StandardModel2(Model):
     def __init__(
         self,
         *,
+        graph_definition: GraphDefinition,
         detector: Detector,
         gnn: GNN,
         tasks: Union[Task, List[Task]],
@@ -952,8 +954,7 @@ class StandardModel2(Model):
         scheduler_config: Optional[Dict] = None,
     ) -> None:
         """Construct `StandardModel`."""
-        # Base class constructor
-        super().__init__()
+        
 
         # Check(s)
         if isinstance(tasks, Task):
@@ -963,6 +964,9 @@ class StandardModel2(Model):
         assert isinstance(detector, Detector)
         assert isinstance(gnn, GNN)
         assert coarsening is None or isinstance(coarsening, Coarsening)
+
+        # Base class constructor
+        super().__init__(tasks=tasks, graph_definition=graph_definition, backbone=gnn)
 
         # Member variable(s)
         self._detector = detector
@@ -1614,14 +1618,15 @@ class DynEdge(GNN):
         return x
 
 
-class GraphBuilder(Model):  # pylint: disable=too-few-public-methods
-    """Base class for graph building."""
+# class GraphBuilder(Model):  # pylint: disable=too-few-public-methods
+#     """Base class for graph building."""
 
-    pass
+#     pass
 
 
-
-class KNNGraphBuilderMulti(GraphBuilder):  # pylint: disable=too-few-public-methods
+from graphnet.models.graphs.graph_definition import GraphDefinition
+from graphnet.models.graphs.graphs import KNNGraph
+class KNNGraphBuilderMulti(KNNGraph): # GraphBuilder):  # pylint: disable=too-few-public-methods
     """Builds graph from the k-nearest neighbours."""
 
     @save_model_config
@@ -1629,10 +1634,11 @@ class KNNGraphBuilderMulti(GraphBuilder):  # pylint: disable=too-few-public-meth
         self,
         nb_nearest_neighbours,
         columns,
+        detector,
     ):
         """Construct `KNNGraphBuilder`."""
         # Base class constructor
-        super().__init__()
+        super().__init__(detector=detector)
 
         # Member variable(s)
         assert len(nb_nearest_neighbours) == len(columns)
@@ -1694,25 +1700,29 @@ class DistanceLoss2(LossFunction):
     
     
 
-class IceCubeKaggle2(Detector):
+class IceCubeKaggle2(IceCubeKaggle): #Detector):
     """`Detector` class for Kaggle Competition."""
 
     # Implementing abstract class attribute
     features = FEATURES.KAGGLE
     
-    def feature_map(self) -> Dict[str, Callable]:
-        raise NotImplementedError
-        """Map standardization functions to each dimension of input data."""
-        feature_map = {
-            "x": self._xyz,
-            "y": self._xyz,
-            "z": self._xyz,
-            "time": self._time,
-            "charge": self._charge,
-            "auxiliary": self._identity,
-        }
-        return feature_map
+    # def feature_map(self) -> Dict[str, Callable]:
+    #     # raise NotImplementedError
+    #     """Map standardization functions to each dimension of input data."""
+    #     feature_map = {
+    #         "x": self._xyz,
+    #         "y": self._xyz,
+    #         "z": self._xyz,
+    #         "time": self._time,
+    #         "charge": self._charge,
+    #         "auxiliary": self._identity,
+    #     }
+    #     return feature_map
 
+    def _time(self, x: torch.tensor) -> torch.tensor:
+        return (x - 1.0e04) / (500.0*0.23)
+
+    # TODO: Remove
     def _forward(self, data: Data) -> Data:
         """Ingest data, build graph, and preprocess features.
 
@@ -1784,8 +1794,15 @@ def build_model2(config: Dict[str,Any], train_dataloader: Any, train_dataset: An
             target_labels=config["target"],
             loss_function=DistanceLoss2(),
         )
-
+    
+    graph_builder = KNNGraphBuilderMulti(
+        nb_nearest_neighbours=NB_NEAREST_NEIGHBOURS,
+        columns=COLUMNS_NEAREST_NEIGHBOURS, 
+        detector=detector,
+        )
+    
     model = StandardModel2(
+        graph_definition=graph_builder,
         detector=detector,
         gnn=gnn,
         tasks=[task2, task],

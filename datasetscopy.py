@@ -12,8 +12,8 @@ import numpy as np
 import pandas as pd
 import torch
 
-SENSOR_GEOMETRY_FILE = "data/sensor_geometry.csv"
-META_DIR = 'data/train'
+SENSOR_GEOMETRY_FILE = "input/icecube-neutrinos-in-deep-ice/sensor_geometry.csv"
+META_DIR = 'input/icecube-neutrinos-in-deep-ice'
 
 
 class ColumnMissingException(Exception):
