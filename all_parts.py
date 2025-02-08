@@ -1733,8 +1733,8 @@ class IceCubeKaggle2(Detector):
         data.x[:, 4] = torch.log10(data.x[:, 4]) / 3.0  # charge
 
         return data
-    
-class DirectionReconstructionWithKappa2(Task):
+from graphnet.models.task.task import StandardLearnedTask    
+class DirectionReconstructionWithKappa2(StandardLearnedTask): #Task):
     """Reconstructs direction with kappa from the 3D-vMF distribution."""
 
     # Requires three features: untransformed points in (x,y,z)-space.
@@ -1765,23 +1765,25 @@ def build_model2(config: Dict[str,Any], train_dataloader: Any, train_dataset: An
         add_global_variables_after_pooling=True
     )
 
+    prediction_columns = [config["target"] + "_x", 
+                            config["target"] + "_y", 
+                            config["target"] + "_z", 
+                            config["target"] + "_kappa" ]
+    additional_attributes = ['zenith', 'azimuth', 'event_id']
+
     if config["target"] == 'direction':
         task = DirectionReconstructionWithKappa2(
+            prediction_labels=prediction_columns,
             hidden_size=gnn.nb_outputs,
             target_labels=config["target"],
             loss_function=VonMisesFisher3DLoss(),
         )
         task2 = DirectionReconstructionWithKappa2(
+            prediction_labels=prediction_columns,
             hidden_size=gnn.nb_outputs,
             target_labels=config["target"],
             loss_function=DistanceLoss2(),
         )
-        
-        prediction_columns = [config["target"] + "_x", 
-                              config["target"] + "_y", 
-                              config["target"] + "_z", 
-                              config["target"] + "_kappa" ]
-        additional_attributes = ['zenith', 'azimuth', 'event_id']
 
     model = StandardModel2(
         detector=detector,
