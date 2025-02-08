@@ -3,26 +3,19 @@ name = "kaggle-icecube"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
-    "torch-cluster>=1.6.3",
-    "torch>=2.6.0",
-    "torchaudio>=2.6.0",
-    "torchvision>=0.21.0",
-    "torch-scatter>=2.1.2",
-    "torch-sparse>=0.6.18",
-    "torch-geometric>=2.6.1",
-    "ruff>=0.9.4",
-    "pandas>=2.2.3",
-    "colorlog>=6.9.0",
-    "matplotlib>=3.10.0",
-    "polars>=1.21.0",
-    "h5py>=3.12.1",
-    "sqlalchemy>=2.0.37",
+    "graphnet",
+    "jammy-flows",
     "pytorch-lightning>=2.5.0.post0",
-    "scikit-learn>=1.6.1",
-    "pydantic>=2.10.6",
-    "ruamel-yaml>=0.18.10",
-    "dill>=0.3.9",
-    "fastparquet>=2024.11.0",
+    "torch-scatter",
+    "torch>=2.6.0",
+    "torch-geometric>=2.6.1",
+    "torch-sparse",
 ]
+
+[tool.uv.sources]
+graphnet = { git = "https://github.com/graphnet-team/graphnet" }
+jammy-flows = { git = "https://github.com/thoglu/jammy_flows" }
+torch-scatter = { git = "https://github.com/rusty1s/pytorch_scatter.git" }
+torch-sparse = { git = "https://github.com/rusty1s/pytorch_sparse.git" }

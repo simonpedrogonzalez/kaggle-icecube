@@ -1,3 +1,11 @@
+import sys
+import os
+
+# graphnet_path = os.path.abspath("kaggle/working/software/graphnet/src")
+# if graphnet_path not in sys.path:
+#     sys.path.append(graphnet_path)
+
+
 from abc import ABC, abstractmethod
 from collections import OrderedDict
 from copy import deepcopy
@@ -60,11 +68,11 @@ from typing import cast, Any, Callable, Optional, Sequence, Union, Dict, List, O
 import gc
 import graphnet
 import numpy as np
-import os
+# import os
 import pandas as pd
 import random
 import socket
-import sys
+# import sys
 import torch
 
 try:
@@ -1691,6 +1699,19 @@ class IceCubeKaggle2(Detector):
 
     # Implementing abstract class attribute
     features = FEATURES.KAGGLE
+    
+    def feature_map(self) -> Dict[str, Callable]:
+        raise NotImplementedError
+        """Map standardization functions to each dimension of input data."""
+        feature_map = {
+            "x": self._xyz,
+            "y": self._xyz,
+            "z": self._xyz,
+            "time": self._time,
+            "charge": self._charge,
+            "auxiliary": self._identity,
+        }
+        return feature_map
 
     def _forward(self, data: Data) -> Data:
         """Ingest data, build graph, and preprocess features.
