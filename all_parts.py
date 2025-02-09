@@ -2803,23 +2803,26 @@ def build_model3(config, dataloader, dataset) -> StandardModel2:
     """Builds GNN from config"""
     # Building model
 
+    prediction_columns = [config["target"] + "_x", 
+                              config["target"] + "_y", 
+                              config["target"] + "_z", 
+                              config["target"] + "_kappa" ]
+    additional_attributes = ['zenith', 'azimuth', 'event_id']
+
     if config["target"] == 'direction':
         task = DirectionReconstructionWithKappa2(
+            prediction_labels=prediction_columns,
             hidden_size=HIDDEN_SIZE,
             target_labels=config["target"],
             loss_function=VonMisesFisher3DLoss(),
         )
         task2 = DirectionReconstructionWithKappa2(
+            prediction_labels=prediction_columns,
             hidden_size=HIDDEN_SIZE,
             target_labels=config["target"],
             loss_function=DistanceLoss2(),
         )
         
-        prediction_columns = [config["target"] + "_x", 
-                              config["target"] + "_y", 
-                              config["target"] + "_z", 
-                              config["target"] + "_kappa" ]
-        additional_attributes = ['zenith', 'azimuth', 'event_id']
 
     model = StandardModel3(
         tasks=[task2, task],
