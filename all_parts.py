@@ -1008,7 +1008,10 @@ class StandardModel2(StandardModel):#Model):
         #import pdb;pdb.set_trace()
         if self._coarsening:
             data = self._coarsening(data)
-        data = self._detector(data)
+        # feature_names = data.keys()
+        # data = self._detector(data.x, input_feature_names=FEATURES.KAGGLE[:-1])
+        data = self._graph_definition(data)
+        data = self._detector._forward(data)
         x = self._gnn(data)
         #preds = [task(x) for task in self._tasks]
         if USE_ALL_FEA_IN_PRED:
@@ -1722,7 +1725,7 @@ class IceCubeKaggle2(IceCubeKaggle): #Detector):
     def _time(self, x: torch.tensor) -> torch.tensor:
         return (x - 1.0e04) / (500.0*0.23)
 
-    # TODO: Remove
+    # TODO: How to handle this in the new framework?
     def _forward(self, data: Data) -> Data:
         """Ingest data, build graph, and preprocess features.
 
@@ -1733,7 +1736,7 @@ class IceCubeKaggle2(IceCubeKaggle): #Detector):
             Connected and preprocessed graph data.
         """
         # Check(s)
-        self._validate_features(data)
+        # self._validate_features(data)
 
         # Preprocessing
         data.x[:, 0] /= 500.0  # x
@@ -2118,10 +2121,10 @@ def infer(min_pulse, max_pulse, batch_size, this_batch_id):
     
     model = build_model2(config, test_dataloader, test_dataset)
 
-    state_dict =  torch.load(CKPT, torch.device('cpu'))
+    state_dict =  torch.load(CKPT, torch.device('cpu'), weights_only=False)
     if 'state_dict' in state_dict:
         state_dict = state_dict['state_dict']
-    model.load_state_dict(state_dict)
+    model.load_state_dict(state_dict, strict=False)
 
     USE_ORIG_PRED = True
     if USE_ORIG_PRED:

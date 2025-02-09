@@ -670,6 +670,7 @@ dependencies = [
     { name = "jammy-flows" },
     { name = "pytorch-lightning" },
     { name = "torch" },
+    { name = "torch-cluster" },
     { name = "torch-geometric" },
     { name = "torch-scatter" },
     { name = "torch-sparse" },
@@ -681,6 +682,7 @@ requires-dist = [
     { name = "jammy-flows", git = "https://github.com/thoglu/jammy_flows" },
     { name = "pytorch-lightning", specifier = ">=2.5.0.post0" },
     { name = "torch", specifier = ">=2.6.0" },
+    { name = "torch-cluster", specifier = ">=1.6.3" },
     { name = "torch-geometric", specifier = ">=2.6.1" },
     { name = "torch-scatter", git = "https://github.com/rusty1s/pytorch_scatter.git" },
     { name = "torch-sparse", git = "https://github.com/rusty1s/pytorch_sparse.git" },
@@ -1848,6 +1850,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/c2/9c/fc5224e9770c83faed3a087112d73147cd7c7bfb7557dcf9ad87e1dda163/torch-2.6.0-cp313-cp313-win_amd64.whl", hash = "sha256:510c73251bee9ba02ae1cb6c9d4ee0907b3ce6020e62784e2d7598e0cfa4d6cc", size = 204126475 },
     { url = "https://files.pythonhosted.org/packages/88/8b/d60c0491ab63634763be1537ad488694d316ddc4a20eaadd639cedc53971/torch-2.6.0-cp313-none-macosx_11_0_arm64.whl", hash = "sha256:ff96f4038f8af9f7ec4231710ed4549da1bdebad95923953a25045dcf6fd87e2", size = 66536783 },
 ]
+
+[[package]]
+name = "torch-cluster"
+version = "1.6.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "scipy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/54/31/e7f7a28253cd907404eb652607613b35779140b326d15d0636511b7b9438/torch_cluster-1.6.3.tar.gz", hash = "sha256:78d5a930a5bbd0d8788df8c6d66addd68d6dd292fe3edb401e3dacba26308152", size = 54550 }
 
 [[package]]
 name = "torch-geometric"
